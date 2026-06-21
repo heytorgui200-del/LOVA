@@ -64,32 +64,9 @@ export async function clientWalletPurchase(credits: number) {
 }
 
 export async function adminGrantCredits(credits: number, email?: string) {
-  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-  const arr = new Uint8Array(8);
-  crypto.getRandomValues(arr);
-  let random = "";
-  for (let i = 0; i < 8; i++) random += chars[arr[i] % chars.length];
-  const masterEmail = email || `lovable-${random}@seudominio.com`;
-  const fakeOrderId = Math.floor(100000 + Math.random() * 900000);
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Não autenticado");
-
-  const { data: order, error: orderErr } = await supabase
-    .from("orders")
-    .insert({
-      user_id: user.id,
-      credits,
-      price: 0,
-      status: "provisioning",
-      order_type: "admin_grant",
-      master_email: masterEmail,
-      order_id_lovable: String(fakeOrderId),
-    })
-    .select("id")
-    .single();
-
-  if (orderErr || !order) throw new Error("Erro ao criar pedido");
-
-  return { ok: true, order_id: order.id, master_email: masterEmail };
+  const { data, error } = await supabase.functions.invoke("admin-grant-credits", {
+    body: { credits, email },
+  });
+  if (error) throw new Error(error.message || "Failed to grant credits");
+  return data;
 }

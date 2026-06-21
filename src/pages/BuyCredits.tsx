@@ -5,7 +5,7 @@ import {
   Lock, Cloud, RefreshCw, Infinity,
 } from "lucide-react";
 import { toast } from "sonner";
-import { createPixPayment } from "@/lib/api";
+import { createPixPayment, adminGrantCredits } from "@/lib/api";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "@/contexts/AuthContext";
@@ -84,13 +84,15 @@ const BENEFITS = [
 
 export default function BuyCreditsPage() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const { getDetails, isLoading: pricingLoading } = usePricing();
 
   const [pendingCredits, setPendingCredits] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [showInterceptModal, setShowInterceptModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [adminCredits, setAdminCredits] = useState<string>("");
+  const [adminGranting, setAdminGranting] = useState(false);
 
   const handlePixGuest = (creditsAmount: number) => {
     if (isSubmitting || loading) return;
@@ -101,6 +103,28 @@ export default function BuyCreditsPage() {
   const handleInterceptContinue = () => {
     setShowInterceptModal(false);
     handleGeneratePix(user?.email || "", pendingCredits);
+  };
+
+  const handleAdminGrant = async () => {
+    const credits = parseInt(adminCredits);
+    if (!credits || credits < 10 || credits > 100000 || credits % 10 !== 0) {
+      toast.error("Creditos devem ser entre 10 e 100000, em multiplos de 10");
+      return;
+    }
+    setAdminGranting(true);
+    try {
+      const result = await adminGrantCredits(credits);
+      if (result.ok) {
+        toast.success(`${credits} creditos adicionados com sucesso!`);
+        setAdminCredits("");
+      } else {
+        toast.error("Erro ao creditar. Tente novamente.");
+      }
+    } catch {
+      toast.error("Erro ao creditar. Verifique se voce e admin.");
+    } finally {
+      setAdminGranting(false);
+    }
   };
 
   const handleGeneratePix = async (email: string, creditsAmount: number) => {
@@ -220,6 +244,43 @@ export default function BuyCreditsPage() {
               </button>
             )}
           </motion.div>
+
+          {/* ═══════════ ADMIN: CREDITOS GRATIS ═══════════ */}
+          {user && isAdmin && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="w-full max-w-md mx-auto mt-8"
+            >
+              <div className="rounded-2xl border border-purple-500/30 bg-purple-500/10 p-6 space-y-4">
+                <div className="flex items-center gap-2 text-purple-400">
+                  <Shield className="h-5 w-5" />
+                  <span className="font-semibold text-sm">Painel Admin — Creditos Gratis</span>
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="number"
+                    value={adminCredits}
+                    onChange={(e) => setAdminCredits(e.target.value)}
+                    placeholder="Qtd. creditos (min 10)"
+                    min={10}
+                    max={100000}
+                    step={10}
+                    className="flex-1 rounded-lg border border-purple-500/30 bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  />
+                  <button
+                    onClick={handleAdminGrant}
+                    disabled={adminGranting || !adminCredits}
+                    className="rounded-lg bg-purple-600 hover:bg-purple-700 disabled:opacity-50 px-5 py-2.5 text-sm font-semibold text-white transition-colors"
+                  >
+                    {adminGranting ? "Creditando..." : "Creditar Gratis"}
+                  </button>
+                </div>
+                <p className="text-xs text-purple-300/60">Somente admins podem usar esta funcao.</p>
+              </div>
+            </motion.div>
+          )}
         </section>
 
         {/* ═══════════ PROVA SOCIAL (lazy) ═══════════ */}

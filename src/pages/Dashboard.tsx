@@ -15,7 +15,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { createPixPayment, clientWalletPurchase } from "@/lib/api";
+import { createPixPayment, clientWalletPurchase, adminGrantCredits } from "@/lib/api";
 import { formatCurrency, formatNumber } from "@/lib/pricing";
 import { usePricing } from "@/hooks/usePricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
@@ -39,7 +39,7 @@ const statusMap: Record<string, { label: string; cls: string }> = {
 };
 
 export default function DashboardPage() {
-  const { profile, user, refreshProfile } = useAuth();
+  const { profile, user, isAdmin, refreshProfile } = useAuth();
   const SUPPORT_LINK = useWhatsAppLink();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -50,6 +50,8 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(false);
   const [walletLoading, setWalletLoading] = useState(false);
   const [showTopUp, setShowTopUp] = useState(false);
+  const [adminCredits, setAdminCredits] = useState<string>("");
+  const [adminGranting, setAdminGranting] = useState(false);
   const { getDetails } = usePricing();
   
   const { total, savings } = getDetails(credits);
@@ -124,6 +126,30 @@ export default function DashboardPage() {
     }
   };
 
+  const handleAdminGrant = async () => {
+    const creditsAmount = parseInt(adminCredits);
+    if (!creditsAmount || creditsAmount < 10 || creditsAmount > 100000 || creditsAmount % 10 !== 0) {
+      toast.error("Creditos devem ser entre 10 e 100000, em multiplos de 10");
+      return;
+    }
+    setAdminGranting(true);
+    try {
+      const result = await adminGrantCredits(creditsAmount);
+      if (result.ok) {
+        toast.success(`${creditsAmount} creditos adicionados com sucesso!`);
+        setAdminCredits("");
+        await refreshProfile();
+        queryClient.invalidateQueries({ queryKey: ["user-orders"] });
+      } else {
+        toast.error("Erro ao creditar. Tente novamente.");
+      }
+    } catch {
+      toast.error("Erro ao creditar. Verifique se voce e admin.");
+    } finally {
+      setAdminGranting(false);
+    }
+  };
+
   if (showTopUp) {
     return (
       <div className="min-h-screen bg-background pt-20 sm:pt-24 pb-12 sm:pb-16 px-3 sm:px-4">
@@ -166,6 +192,46 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </motion.div>
+
+        {/* ═══════════ ADMIN: CREDITOS GRATIS ═══════════ */}
+        {isAdmin && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <Card className="border-purple-500/30 bg-purple-500/5">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm flex items-center gap-2 text-purple-400">
+                  <Zap className="h-4 w-4" />
+                  Creditos Gratis (Admin)
+                </CardTitle>
+                <CardDescription>Adicione creditos sem pagar nada</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex gap-2">
+                  <input
+                    type="number"
+                    value={adminCredits}
+                    onChange={(e) => setAdminCredits(e.target.value)}
+                    placeholder="Qtd. creditos"
+                    min={10}
+                    max={100000}
+                    step={10}
+                    className="flex-1 rounded-lg border border-purple-500/30 bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  />
+                  <Button
+                    onClick={handleAdminGrant}
+                    disabled={adminGranting || !adminCredits}
+                    className="bg-purple-600 hover:bg-purple-700"
+                  >
+                    {adminGranting ? "Creditando..." : "Creditar Gratis"}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
 
         {/* Stats Grid */}
         <div className="grid grid-cols-3 gap-3">
