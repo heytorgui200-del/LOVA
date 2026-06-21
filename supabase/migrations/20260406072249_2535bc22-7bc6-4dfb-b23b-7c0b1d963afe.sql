@@ -1,0 +1,1 @@
+CREATE POLICY "Public read profit_margin" ON public.api_config FOR SELECT TO public USING (key_name = 'profit_margin');

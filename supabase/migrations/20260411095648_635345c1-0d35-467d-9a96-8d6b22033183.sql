@@ -1,0 +1,1 @@
+ALTER TABLE public.reseller_links ADD COLUMN client_name text DEFAULT NULL;

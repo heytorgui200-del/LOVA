@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /login
+Disallow: /register
+Disallow: /dashboard
+Disallow: /history
+Disallow: /pix/
+Disallow: /order/
+Disallow: /painel-x7k9m
+Disallow: /banned
+
+Sitemap: https://lovaboost.com.br/sitemap.xml

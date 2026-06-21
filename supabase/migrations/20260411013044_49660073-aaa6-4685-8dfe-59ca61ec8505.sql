@@ -1,0 +1,1 @@
+ALTER TABLE public.seo_clusters ADD COLUMN keyword text DEFAULT '' NOT NULL;

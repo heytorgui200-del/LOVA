@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main pages -->
+  <url><loc>https://lovaboost.com.br/</loc><lastmod>2026-04-15</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://lovaboost.com.br/como-funciona</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+
+  <!-- SEO pages -->
+  <url><loc>https://lovaboost.com.br/vibe-coding</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lovaboost.com.br/lovable-vs-bolt</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lovaboost.com.br/criar-app-com-ia</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lovaboost.com.br/comprar-creditos-lovable</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lovaboost.com.br/como-recarregar-lovable</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lovaboost.com.br/revenda-creditos-lovable</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lovaboost.com.br/creditos-lovable-ilimitados</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lovaboost.com.br/lovable-dev-como-funciona</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+
+  <!-- Programmatic SEO: Transactional -->
+  <url><loc>https://lovaboost.com.br/creditos/comprar/lovable-barato</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lovaboost.com.br/creditos/revenda/como-ganhar</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+
+  <!-- Programmatic SEO: Bait / Anti-competition -->
+  <url><loc>https://lovaboost.com.br/creditos/gratis/lovable-2025</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lovaboost.com.br/lovable/alternativa/barata</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lovaboost.com.br/lovable/nao-funciona</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+
+  <!-- Programmatic SEO: Comparison -->
+  <url><loc>https://lovaboost.com.br/lovable/vs/cursor</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lovaboost.com.br/lovable/vs/replit</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lovaboost.com.br/lovable/vs/v0</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+
+  <!-- Programmatic SEO: Educational -->
+  <url><loc>https://lovaboost.com.br/criar-app/sem-codigo</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lovaboost.com.br/vibe-coding/como-comecar</loc><lastmod>2026-04-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+</urlset>
