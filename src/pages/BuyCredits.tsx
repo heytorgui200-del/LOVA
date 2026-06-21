@@ -79,6 +79,7 @@ const BENEFITS = [
   { icon: CreditCard, label: "PIX Instantâneo" },
   { icon: Zap, label: "Até 76% de Desconto" },
   { icon: ShieldCheck, label: "Entrega Automática" },
+  { icon: Cloud, label: "Deploy Auto ✓" },
 ];
 
 export default function BuyCreditsPage() {
